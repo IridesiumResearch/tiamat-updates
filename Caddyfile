@@ -1,0 +1,21 @@
+{
+	# Dokploy's proxy terminates TLS in front of this container, so this
+	# listens on plain HTTP and never asks for a certificate of its own.
+	auto_https off
+}
+
+:80 {
+	root * /srv
+	file_server
+	header -Server
+
+	# The head of each channel — what installed clients fetch — is always
+	# revalidated, so nothing between here and a player hands out last
+	# week's manifest.
+	@heads path /*/manifest.json /*/manifest.json.sig
+	header @heads Cache-Control "no-cache"
+
+	# A signed release never changes, so its kept copy may be cached for good.
+	@kept path /*/releases/*
+	header @kept Cache-Control "public, max-age=31536000, immutable"
+}

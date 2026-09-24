@@ -1,0 +1,44 @@
+# Nothing here signs anything and nothing here deploys anything: Dokploy
+# deploys main on its own. This is the gate in front of that — a manifest that
+# an installed client would refuse must not reach the host, because the host
+# is what every installed copy asks.
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: The Caddyfile parses
+        run: |
+          docker run --rm -v "$PWD/Caddyfile:/etc/caddy/Caddyfile:ro" caddy:2-alpine \
+            caddy validate --adapter caddyfile --config /etc/caddy/Caddyfile
+
+      - name: Every manifest is one an installed client would accept
+        run: |
+          python3 scripts/check_manifests.py --self-test
+          python3 scripts/check_manifests.py
+
+      - name: The image builds and serves the tree byte for byte
+        run: |
+          docker build -q -t tiamat-updates .
+          docker run -d --rm --name updates -p 8080:80 tiamat-updates
+          for i in $(seq 1 20); do curl -sf -o /dev/null http://127.0.0.1:8080/ && break; sleep 0.5; done
+          curl -sf -o /dev/null http://127.0.0.1:8080/ || { echo "the index did not answer"; docker logs updates; exit 1; }
+          for head in site/*/manifest.json; do
+            [ -f "$head" ] || continue
+            url="http://127.0.0.1:8080/${head#site/}"
+            curl -sf -o served.json "$url"
+            cmp "$head" served.json || { echo "$url is not the committed bytes"; exit 1; }
+            curl -sf -o served.sig "$url.sig"
+            cmp "$head.sig" served.sig || { echo "$url.sig is not the committed bytes"; exit 1; }
+            curl -sfI "$url" | grep -qi '^cache-control: no-cache' || { echo "$url is not served with Cache-Control: no-cache"; curl -sI "$url"; exit 1; }
+            echo "served $url as committed, no-cache"
+          done
+          docker stop updates >/dev/null
