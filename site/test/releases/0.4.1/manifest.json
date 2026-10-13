@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "channel": "test",
+  "version": "0.4.1",
+  "commit": "6684a76b97d173fe0a5d64710f7c5c685ffe3a57",
+  "released": "2026-10-13T17:31:01Z",
+  "protocol": 90,
+  "key": "16b76ab8cddd949fa38a4906a735e47383534be3cd4e22409d86f72894849fb7",
+  "next_key": null,
+  "notes": "https://github.com/IridesiumResearch/Tiamat-Voxel-Game/releases/tag/v0.4.1",
+  "artifacts": [
+    {
+      "target": "aarch64-apple-darwin",
+      "name": "tiamat-0.4.1-aarch64-apple-darwin.tar.gz",
+      "size": 29163328,
+      "hash": "6498318df491c374f5850d951a755a1126fede066b7e0a375ece21a7e5d1df5a",
+      "urls": [
+        "https://github.com/IridesiumResearch/Tiamat-Voxel-Game/releases/download/v0.4.1/tiamat-0.4.1-aarch64-apple-darwin.tar.gz"
+      ]
+    },
+    {
+      "target": "x86_64-apple-darwin",
+      "name": "tiamat-0.4.1-x86_64-apple-darwin.tar.gz",
+      "size": 30812160,
+      "hash": "b78bb600629ec53fc1be3c1728dca51fc291484c76f239be779b9a37b1788c16",
+      "urls": [
+        "https://github.com/IridesiumResearch/Tiamat-Voxel-Game/releases/download/v0.4.1/tiamat-0.4.1-x86_64-apple-darwin.tar.gz"
+      ]
+    },
+    {
+      "target": "x86_64-pc-windows-msvc",
+      "name": "tiamat-0.4.1-x86_64-pc-windows-msvc.zip",
+      "size": 32160476,
+      "hash": "11405cb19f00117d93ddffcc84c7c7e804e3d6d85bb7a23a76a12a23be079bdd",
+      "urls": [
+        "https://github.com/IridesiumResearch/Tiamat-Voxel-Game/releases/download/v0.4.1/tiamat-0.4.1-x86_64-pc-windows-msvc.zip"
+      ]
+    },
+    {
+      "target": "x86_64-unknown-linux-gnu",
+      "name": "tiamat-0.4.1-x86_64-unknown-linux-gnu.tar.gz",
+      "size": 32775230,
+      "hash": "dd54c4d1b45d43c82f9aeb6cdbabf6169cc6c553586c60f9f92365f0359363e9",
+      "urls": [
+        "https://github.com/IridesiumResearch/Tiamat-Voxel-Game/releases/download/v0.4.1/tiamat-0.4.1-x86_64-unknown-linux-gnu.tar.gz"
+      ]
+    }
+  ]
+}
